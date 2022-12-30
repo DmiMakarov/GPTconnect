@@ -19,7 +19,7 @@ from django.urls import path
 from table.views import ReportListView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', admin.site.urls),
     path("table/", ReportListView.as_view())
 ]
 
