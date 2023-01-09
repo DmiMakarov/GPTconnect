@@ -1,3 +1,9 @@
-from django.contrib.auth import User
+from django.contrib.auth import get_user_model
 
-User.objects.create_superuser('admin', 'makarov.da@phystech.edu', 'admin')
+UserModel = get_user_model()
+
+if not UserModel.objects.filter(username='admin').exists():
+    user=UserModel.objects.create_user('admin', password='admin')
+    user.is_superuser=True
+    user.is_staff=True
+    user.save()
