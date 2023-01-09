@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
+import dj_database_url
 from pathlib import Path
 import os
 
@@ -26,8 +27,12 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-&jhu1+^5^32*f$#6tpam@
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['gptconnect.herokuapp.com','127.0.0.1']
+#ALLOWED_HOSTS = ['gptconnect.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = []
 
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:    
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 # Application definition
 
@@ -80,17 +85,23 @@ WSGI_APPLICATION = 'GPTconnect.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'gptconnectdb',
+#        'USER': 'admin',
+#        'PASSWORD': 'zq1714qDb',
+#        'HOST': 'localhost',
+#        'PORT': '',
+#    }
+#}
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'gptconnectdb',
-        'USER': 'admin',
-        'PASSWORD': 'zq1714qDb',
-        'HOST': 'localhost',
-        'PORT': '',
-    }
+    'default': dj_database_url.config(
+        # Feel free to alter this value to suit your needs.
+        default='postgres://admin:n3IkLGemhg7x4WZrRnIm9UDLT604lCug@dpg-cetn641a6gdut0ptjng0-a/gptconnectdb',
+        conn_max_age=600
+    )
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
